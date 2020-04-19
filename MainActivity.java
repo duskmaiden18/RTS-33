@@ -1,9 +1,10 @@
-package com.example.lab3;
+package com.example.lab33;
 
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.Arrays;
 import java.util.Objects;
@@ -19,8 +20,9 @@ public class MainActivity extends AppCompatActivity {
     private int[] fits = new int[4];
     private int[] stats = new int[4];
     private double[] deltas = new double[4];
+    private int mutCof;
 
-    private EditText a, b, c, d, y;
+    private EditText a, b, c, d, y, mutCoef;
     private TextView genom, endTime;
 
     @Override
@@ -39,6 +41,13 @@ public class MainActivity extends AppCompatActivity {
         }
 
         int[] eqCoef = {castToInt(a), castToInt(b), castToInt(c), castToInt(d)};
+        mutCof = castToDouble(mutCoef);
+
+        if (mutCof < 0 || mutCof > 1) {
+            Toast.makeText(getApplicationContext(),
+                    "Not right input",
+                    Toast.LENGTH_SHORT).show();
+        }
 
         long t1 = System.currentTimeMillis();
         int[] result = findFitness(eqCoef, castToInt(y));
@@ -75,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
         crossOver();
 
         // mutations
-        mutate();
+        mutate(mutCof);
 
         // recursive algorithm
         return findFitness(cor, maxRange);
@@ -89,6 +98,7 @@ public class MainActivity extends AppCompatActivity {
         y = findViewById(R.id.y);
         endTime = findViewById(R.id.genotype);
         genom = findViewById(R.id.resTime);
+        mutCoef = findViewById(R.id.mutCoef);
     }
 
 
@@ -128,13 +138,13 @@ public class MainActivity extends AppCompatActivity {
         return null;
     }
 
-    public void mutate() {
-        int firstMutation = randomizeNumber(lastPopulation[2].length - 1);
-        int secondMutation = randomizeNumber(lastPopulation[2].length - 1);
+    public void mutate(double mutCoef) {
+        double firstMutation = mutCoef * randomizeNumber(lastPopulation[2].length - 1);
+        double secondMutation = mutCoef * randomizeNumber(lastPopulation[2].length - 1);
 
         for (int i = 0; i < lastPopulation.length; i++) {
-            if (firstMutation == i) {
-                lastPopulation[i][secondMutation] += 1;
+            if ((int)Math.round(firstMutation) == i) {
+                lastPopulation[i][(int)Math.round(secondMutation)] += 1;
             }
         }
 
@@ -148,4 +158,8 @@ public class MainActivity extends AppCompatActivity {
     public int castToInt(EditText param){
         return Integer.parseInt(param.getText().toString());
     }
-} 
+
+    public int castToDouble(EditText param){
+        return Double.parseDouble(param.getText().toString());
+    }
+}

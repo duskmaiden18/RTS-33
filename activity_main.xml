@@ -104,6 +104,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <EditText
+        android:id="@+id/mutCoef"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="Коефіцієнт мутації"
+        tools:layout_editor_absoluteX="162dp"
+        tools:layout_editor_absoluteY="318dp" />
+
     <TextView
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
@@ -164,4 +174,4 @@
         android:text="Генотип"
         app:layout_constraintStart_toStartOf="@+id/resTime"
         app:layout_constraintTop_toBottomOf="@+id/resTime" />
-</androidx.constraintlayout.widget.ConstraintLayout> 
+</androidx.constraintlayout.widget.ConstraintLayout>
